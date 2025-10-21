@@ -18,26 +18,25 @@ public partial class IntroPage : ContentPage
 
         try
         {
-            // 1) ќткрываем видео из пакета (Resources/Raw/intro.mp4)
             using var inStream = await FileSystem.OpenAppPackageFileAsync("intro.mp4");
-
-            // 2)  опируем во временный файл (кэш приложени€)
             var tempPath = Path.Combine(FileSystem.CacheDirectory, "intro.mp4");
             using (var outStream = File.Create(tempPath))
                 await inStream.CopyToAsync(outStream);
 
-            // 3) «адаЄм источник как "обычный файл" Ч это самый стабильный вариант
             Video.Source = MediaSource.FromFile(tempPath);
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Video", "Cannot open intro video: " + ex.Message, "OK");
+            await DisplayAlert("Video", "Cannot open intro: " + ex.Message, "OK");
             await OnEndAsync();
         }
     }
 
-    // событи€ MediaElement
-    void OnOpened(object? sender, EventArgs e) { /* ok */ }
+    void OnOpened(object? s, EventArgs e)
+    {
+        // показываем кнопку м€гко, когда видео уже вывелось Ч меньше шансов мигать
+        SkipBtn.FadeTo(0.85, 250);
+    }
 
     async void OnFailed(object? sender, MediaFailedEventArgs e)
     {
