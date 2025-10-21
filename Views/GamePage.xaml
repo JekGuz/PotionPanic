@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PotionPanic.Views.GamePage"
-             Title="GamePage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+<ContentPage
+    x:Class="PotionPanic.Views.GamePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Game">
+
+    <VerticalStackLayout Spacing="12" Padding="16">
+        <!-- метки -->
+        <Label x:Name="RecipeLabel" FontSize="18" />
+        <Label x:Name="ProgressLabel" />
+        <Label x:Name="ScoreLabel" />
+
+        <!-- кнопки ингредиентов -->
+        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+            <Button Grid.Row="0" Grid.Column="0" Text="Mushroom" Clicked="OnIngredient"/>
+            <Button Grid.Row="0" Grid.Column="1" Text="Crystal"  Clicked="OnIngredient"/>
+            <Button Grid.Row="1" Grid.Column="0" Text="Herb"     Clicked="OnIngredient"/>
+            <Button Grid.Row="1" Grid.Column="1" Text="Feather"  Clicked="OnIngredient"/>
+            <Button Grid.Row="2" Grid.Column="0" Text="Eye"      Clicked="OnIngredient"/>
+            <Button Grid.Row="2" Grid.Column="1" Text="Root"     Clicked="OnIngredient"/>
+        </Grid>
+
+        <Button Text="Back to Menu" Clicked="Back_Clicked"/>
     </VerticalStackLayout>
 </ContentPage>

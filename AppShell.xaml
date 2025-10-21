@@ -9,5 +9,6 @@
     <TabBar>
         <ShellContent Route="intro" ContentTemplate="{DataTemplate views:IntroPage}" />
         <ShellContent Route="menu"  ContentTemplate="{DataTemplate views:MenuPage}" />
+        <ShellContent Route="game"  ContentTemplate="{DataTemplate views:GamePage}" />
     </TabBar>
 </Shell>

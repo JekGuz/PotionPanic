@@ -10,12 +10,11 @@
     <Grid>
         <toolkit:MediaElement
             x:Name="IntroPlayer"
-            Source="resource://PotionPanic.Resources.Raw.intro.mp4"
-            AutoPlay="True"
-            ShowsPlaybackControls="False"
+            Source="intro.mp4"
             Aspect="AspectFill"
-            IsLooping="False"
-            MediaEnded="MediaElement_MediaEnded" />
+            MediaOpened="MediaElement_MediaOpened"
+            MediaEnded="MediaElement_MediaEnded"
+            MediaFailed="MediaElement_MediaFailed" />
 
         <Grid.GestureRecognizers>
             <TapGestureRecognizer Tapped="OnTapped"/>
