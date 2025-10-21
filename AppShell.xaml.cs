@@ -5,9 +5,17 @@ public partial class AppShell : Shell
     public AppShell()
     {
         InitializeComponent();
-        // Intro становится стартовым и так, но можно явно:
-        Loaded += async (_, __) => await GoToAsync("//intro");
+        FlyoutBehavior = FlyoutBehavior.Disabled; // на интро — скрыт
+        Navigated += OnNavigated;
+
+        // стратуем на Intro
+        _ = GoToAsync("//intro");
     }
 
-    public void EnableFlyout() => FlyoutBehavior = FlyoutBehavior.Flyout;
+    void OnNavigated(object? sender, ShellNavigatedEventArgs e)
+    {
+        // включаем Flyout везде, кроме Intro
+        var route = Current?.CurrentItem?.CurrentItem?.Route;
+        FlyoutBehavior = route == "intro" ? FlyoutBehavior.Disabled : FlyoutBehavior.Flyout;
+    }
 }

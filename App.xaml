@@ -1,14 +1,32 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
-<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:PotionPanic"
-             x:Class="PotionPanic.App">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application
+x:Class="PotionPanic.App"
+xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
-                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+            <Color x:Key="PrimaryNavy">#0B1630</Color>
+            <Color x:Key="DeepSpace">#0E1D3F</Color>
+            <Color x:Key="RoyalBlue">#122552</Color>
+            <Color x:Key="AccentGold">#D4AF37</Color>
+
+
+            <Style TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryNavy}"/>
+                <Setter Property="Padding" Value="16"/>
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource AccentGold}"/>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="TextColor" Value="{StaticResource AccentGold}"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource RoyalBlue}"/>
+                <Setter Property="CornerRadius" Value="16"/>
+                <Setter Property="Padding" Value="12,8"/>
+            </Style>
+            <Style TargetType="ToolbarItem">
+                <Setter Property="TextColor" Value="{StaticResource AccentGold}"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

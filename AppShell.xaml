@@ -1,18 +1,13 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<Shell x:Class="PotionPanic.AppShell"
-       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       xmlns:root="clr-namespace:PotionPanic"
-       xmlns:views="clr-namespace:PotionPanic.Views"
-       Shell.FlyoutBehavior="Disabled">
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell
+    x:Class="PotionPanic.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:PotionPanic.Views">
 
-    <!-- Стартовый экран-интро -->
-    <ShellContent Route="intro"
-                  ContentTemplate="{DataTemplate views:IntroPage}" />
-
-    <!-- Плейсхолдер: твоя существующая MainPage -->
-    <FlyoutItem Title="Main" Route="main">
-        <ShellContent ContentTemplate="{DataTemplate root:MainPage}" />
-    </FlyoutItem>
-
+    <!-- Сначала покажем Intro -->
+    <TabBar>
+        <ShellContent Route="intro" ContentTemplate="{DataTemplate views:IntroPage}" />
+        <ShellContent Route="menu"  ContentTemplate="{DataTemplate views:MenuPage}" />
+    </TabBar>
 </Shell>

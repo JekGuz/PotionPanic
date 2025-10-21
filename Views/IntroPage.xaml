@@ -1,34 +1,24 @@
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="PotionPanic.Views.IntroPage"
-             BackgroundColor="#000"
-             NavigationPage.HasNavigationBar="False">
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PotionPanic.Views.IntroPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Shell.NavBarIsVisible="False"
+    Padding="0">
 
-    <AbsoluteLayout>
+    <Grid>
+        <toolkit:MediaElement
+            x:Name="IntroPlayer"
+            Source="resource://PotionPanic.Resources.Raw.intro.mp4"
+            AutoPlay="True"
+            ShowsPlaybackControls="False"
+            Aspect="AspectFill"
+            IsLooping="False"
+            MediaEnded="MediaElement_MediaEnded" />
 
-        <!-- ВИДЕО: фиксируем на весь экран -->
-        <xct:MediaElement x:Name="Video"
-                          ShouldAutoPlay="True"
-                          ShouldShowPlaybackControls="False"
-                          Aspect="AspectFill"
-                          BackgroundColor="#000"
-                          AbsoluteLayout.LayoutFlags="All"
-                          AbsoluteLayout.LayoutBounds="0,0,1,1"
-                          MediaOpened="OnOpened"
-                          MediaFailed="OnFailed"
-                          MediaEnded="OnEnded" />
-
-        <!-- Кнопка появится ПОСЛЕ открытия видео -->
-        <Button x:Name="SkipBtn"
-                Text="Skip"
-                Opacity="0"
-                CornerRadius="14"
-                Margin="20"
-                HorizontalOptions="End"
-                VerticalOptions="End"
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds="1,1,-1,-1"
-                Clicked="OnEnded"/>
-    </AbsoluteLayout>
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnTapped"/>
+        </Grid.GestureRecognizers>
+    </Grid>
 </ContentPage>

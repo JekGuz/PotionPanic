@@ -75,9 +75,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Update="Resources\Strings\AppResources.et.resx">
+	    <Generator></Generator>
+	    <CustomToolNamespace>PotionPanic.Resources</CustomToolNamespace>
+	  </EmbeddedResource>
 	  <EmbeddedResource Update="Resources\Strings\AppResources.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <CustomToolNamespace>PotionPanic.Resources</CustomToolNamespace>
 	    <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Resources\Strings\AppResources.ru.resx">
+	    <CustomToolNamespace>PotionPanic.Resources</CustomToolNamespace>
+	    <Generator></Generator>
 	  </EmbeddedResource>
 	</ItemGroup>
 
