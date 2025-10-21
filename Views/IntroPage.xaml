@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="PotionPanic.Views.IntroPage"
+             BackgroundColor="#000"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid>
+        <xct:MediaElement x:Name="Video"
+                          ShouldAutoPlay="True"
+                          ShouldShowPlaybackControls="False"
+                          Aspect="AspectFill"
+                          HorizontalOptions="Fill"
+                          VerticalOptions="Fill"
+                          MediaOpened="OnOpened"
+                          MediaFailed="OnFailed"
+                          MediaEnded="OnEnded" />
+
+        <Button Text="Skip"
+                Clicked="OnEnded"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="16"
+                Opacity="0.8"
+                CornerRadius="14"/>
+    </Grid>
+</ContentPage>
