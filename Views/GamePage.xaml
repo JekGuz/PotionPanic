@@ -3,24 +3,72 @@
     x:Class="PotionPanic.Views.GamePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Game">
+    xmlns:res="clr-namespace:PotionPanic.Resources"
+    Title="Game"
+    Padding="0"
+    BackgroundColor="{StaticResource DeepSpace}"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
 
-    <VerticalStackLayout Spacing="12" Padding="16">
-        <!-- метки -->
-        <Label x:Name="RecipeLabel" FontSize="18" />
-        <Label x:Name="ProgressLabel" />
-        <Label x:Name="ScoreLabel" />
+    <Grid>
+        <!-- Фон на весь экран -->
+        <Image Source="bg.jpg"
+               Aspect="AspectFill"
+               InputTransparent="True" />
+        <BoxView Color="#33000000" InputTransparent="True"/>
 
-        <!-- кнопки ингредиентов -->
-        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
-            <Button Grid.Row="0" Grid.Column="0" Text="Mushroom" Clicked="OnIngredient"/>
-            <Button Grid.Row="0" Grid.Column="1" Text="Crystal"  Clicked="OnIngredient"/>
-            <Button Grid.Row="1" Grid.Column="0" Text="Herb"     Clicked="OnIngredient"/>
-            <Button Grid.Row="1" Grid.Column="1" Text="Feather"  Clicked="OnIngredient"/>
-            <Button Grid.Row="2" Grid.Column="0" Text="Eye"      Clicked="OnIngredient"/>
-            <Button Grid.Row="2" Grid.Column="1" Text="Root"     Clicked="OnIngredient"/>
+        <!-- Центровка контента -->
+        <Grid RowDefinitions="*,Auto,*">
+            <VerticalStackLayout Grid.Row="1"
+                                 Spacing="12"
+                                 Padding="16"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center">
+
+                <!-- Метки -->
+                <Label x:Name="RecipeLabel"
+                       Style="{StaticResource BodyLabel}"
+                       HorizontalTextAlignment="Center"
+                       Text="{x:Static res:AppResources.RecipeLabel}" />
+
+                <Label x:Name="ProgressLabel"
+                       Style="{StaticResource BodyLabel}"
+                       HorizontalTextAlignment="Center"
+                       Text="{x:Static res:AppResources.ProgressLabel}" />
+
+                <Label x:Name="ScoreLabel"
+                       Style="{StaticResource BodyLabel}"
+                       HorizontalTextAlignment="Center"
+                       Text="{x:Static res:AppResources.ScoreLabel}" />
+
+                <!-- Кнопки ингредиентов -->
+                <Grid ColumnDefinitions="*,*"
+                      RowDefinitions="Auto,Auto,Auto"
+                      ColumnSpacing="12" RowSpacing="12">
+
+                    <Button Grid.Row="0" Grid.Column="0"
+                            Text="{x:Static res:AppResources.Ing_Mushroom}"
+                            Clicked="OnIngredient"/>
+                    <Button Grid.Row="0" Grid.Column="1"
+                            Text="{x:Static res:AppResources.Ing_Crystal}"
+                            Clicked="OnIngredient"/>
+                    <Button Grid.Row="1" Grid.Column="0"
+                            Text="{x:Static res:AppResources.Ing_Herb}"
+                            Clicked="OnIngredient"/>
+                    <Button Grid.Row="1" Grid.Column="1"
+                            Text="{x:Static res:AppResources.Ing_Feather}"
+                            Clicked="OnIngredient"/>
+                    <Button Grid.Row="2" Grid.Column="0"
+                            Text="{x:Static res:AppResources.Ing_Eye}"
+                            Clicked="OnIngredient"/>
+                    <Button Grid.Row="2" Grid.Column="1"
+                            Text="{x:Static res:AppResources.Ing_Root}"
+                            Clicked="OnIngredient"/>
+                </Grid>
+
+                <Button Text="{x:Static res:AppResources.BackToMenu}"
+                        Clicked="Back_Clicked"/>
+            </VerticalStackLayout>
         </Grid>
-
-        <Button Text="Back to Menu" Clicked="Back_Clicked"/>
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

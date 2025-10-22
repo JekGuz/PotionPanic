@@ -1,5 +1,5 @@
-using System.Globalization;
-using PotionPanic.Resources;
+﻿using PotionPanic.Resources;
+using PotionPanic.Services;
 
 namespace PotionPanic.Views;
 
@@ -8,38 +8,54 @@ public partial class MenuPage : ContentPage
     public MenuPage()
     {
         InitializeComponent();
-        ApplyStrings();
     }
 
-    void ApplyStrings()
+    protected override void OnAppearing()
     {
-        Title = AppResources.Title;
+        base.OnAppearing();
+        ApplyTexts();
+        // Если Switch используем как “циклическую” кнопку — держим его в положении Off
+        // чтобы визуально не вводил в заблуждение
+        if (LangSwitch.IsToggled) LangSwitch.IsToggled = false;
+    }
+
+    // Перерисовать все тексты по текущей культуре
+    void ApplyTexts()
+    {
         TitleLabel.Text = AppResources.Title;
         StartBtn.Text = AppResources.Start;
         ChallengeBtn.Text = AppResources.Challenge;
         ResultsBtn.Text = AppResources.Results;
+
         LangLabel.Text = AppResources.Language;
-        LangCodesLabel.Text = "RU/ET";
+        LangCodesLabel.Text = $"{AppResources.RU} / {AppResources.ET} / EN";
+        // Заголовок страницы — если используешь Title из XAML, можно не трогать
+        Title = AppResources.Title;
     }
 
-    void SetCulture(string code)
-    {
-        var ci = new CultureInfo(code);
-        CultureInfo.CurrentCulture = ci;
-        CultureInfo.CurrentUICulture = ci;
-        AppResources.Culture = ci;
-        ApplyStrings();
-    }
-
+    // Переключатель языка: крутим EN→RU→ET→EN
     void LangSwitch_Toggled(object sender, ToggledEventArgs e)
-        => SetCulture(e.Value ? "et" : "ru");
+    {
+        var next = LocalizationService.Next();
+        LocalizationService.Apply(next);
+        ApplyTexts();
+        // Сбрасываем переключатель обратно (он выполняет роль кнопки)
+        LangSwitch.IsToggled = false;
+    }
 
-    async void StartBtn_Clicked(object sender, EventArgs e)
-        => await Shell.Current.GoToAsync("//game");
+    // Твои обработчики (оставь как были)
+    void StartBtn_Clicked(object sender, EventArgs e)
+    {
+        Shell.Current.GoToAsync("//game"); // или твой маршрут
+    }
 
-    async void ChallengeBtn_Clicked(object sender, EventArgs e)
-        => await DisplayAlert(AppResources.Title, "Challenge ��������� �����.", "OK");
+    void ChallengeBtn_Clicked(object sender, EventArgs e)
+    {
+        // ...
+    }
 
-    async void ResultsBtn_Clicked(object sender, EventArgs e)
-        => await DisplayAlert(AppResources.Title, "ResultsPage ������� ����� GamePage.", "OK");
+    void ResultsBtn_Clicked(object sender, EventArgs e)
+    {
+        // ...
+    }
 }

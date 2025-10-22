@@ -4,18 +4,45 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:resources="clr-namespace:PotionPanic.Resources"
-    Title="{x:Static resources:AppResources.Title}">
+    Title="{x:Static resources:AppResources.Title}"
+    BackgroundColor="{StaticResource PrimaryNavy}">
 
-    <VerticalStackLayout Spacing="16" Padding="16">
-        <Label x:Name="TitleLabel" FontSize="28" FontAttributes="Bold" />
-        <Button x:Name="StartBtn"     Clicked="StartBtn_Clicked"/>
-        <Button x:Name="ChallengeBtn" Clicked="ChallengeBtn_Clicked"/>
-        <Button x:Name="ResultsBtn"   Clicked="ResultsBtn_Clicked"/>
+    <Grid>
 
-        <HorizontalStackLayout Spacing="8" Margin="0,24,0,0">
-            <Label x:Name="LangLabel" />
-            <Switch x:Name="LangSwitch" Toggled="LangSwitch_Toggled"/>
-            <Label x:Name="LangCodesLabel" />
-        </HorizontalStackLayout>
-    </VerticalStackLayout>
+        <!-- Фон меню -->
+        <Image Source="fon4.png"
+               Aspect="AspectFill"
+               InputTransparent="True" />
+
+        <!-- Лёгкое затемнение для контраста текста/кнопок -->
+        <BoxView Color="#660B1630" InputTransparent="True" />
+
+        <!-- Контент меню -->
+        <VerticalStackLayout Spacing="16" Padding="16">
+
+            <!-- Заголовок -->
+            <Label x:Name="TitleLabel"
+                   Style="{StaticResource TitleLabel}"
+                   Text="{x:Static resources:AppResources.Title}" />
+
+            <!-- Кнопки  -->
+            <Button x:Name="StartBtn"     
+                    Style="{StaticResource GoldButton}" 
+                    Clicked="StartBtn_Clicked"/>
+            <Button x:Name="ChallengeBtn" 
+                    Style="{StaticResource GoldButton}" 
+                    Clicked="ChallengeBtn_Clicked"/>
+            <Button x:Name="ResultsBtn"   
+                    Style="{StaticResource GoldButton}" 
+                    Clicked="ResultsBtn_Clicked"/>
+
+            <!-- Переключатель языка -->
+            <HorizontalStackLayout Spacing="8" Margin="0,24,0,0">
+                <Label x:Name="LangLabel" Style="{StaticResource BodyLabel}" />
+                <Switch x:Name="LangSwitch" Toggled="LangSwitch_Toggled" />
+                <Label x:Name="LangCodesLabel" Style="{StaticResource BodyLabel}" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

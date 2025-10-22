@@ -1,41 +1,67 @@
+using System.Diagnostics;
+using System.IO;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Core.Primitives;
+using CommunityToolkit.Maui.Views;
 
 namespace PotionPanic.Views;
 
 public partial class IntroPage : ContentPage
 {
-    bool _played;
-
     public IntroPage() => InitializeComponent();
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        TryPlayWithFallback();
+
+        try
+        {
+            Debug.WriteLine("Intro: OnAppearing start");
+
+            using var inStream = await FileSystem.OpenAppPackageFileAsync("intro.mp4");
+            var tempPath = Path.Combine(FileSystem.CacheDirectory, "intro_intro.mp4");
+            using (var outStream = File.Create(tempPath))
+                await inStream.CopyToAsync(outStream);
+
+            Video.Source = MediaSource.FromFile(tempPath);
+            Debug.WriteLine($"Intro: video set at {tempPath}");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Intro open error: {ex.GetType().Name}: {ex.Message}");
+            await OnEndAsync();
+        }
     }
 
-    async void TryPlayWithFallback()
+    async void OnFailed(object? sender, MediaFailedEventArgs e)
     {
-        try { IntroPlayer?.Play(); } catch { /* игнор */ }
+        Debug.WriteLine($"Intro failed: {e.ErrorMessage}");
+        await OnEndAsync();
+    }
 
-        // Фолбэк: если через 2.5 сек не стартануло — идём в меню
-        await Task.Delay(2500);
-        if (!_played)
+    async void OnEnded(object? sender, EventArgs e)
+    {
+        Debug.WriteLine("Intro: MediaEnded fired");
+        await OnEndAsync();
+    }
+
+    void OnOpened(object? s, EventArgs e)
+    {
+        SkipBtn.FadeTo(0.85, 250);
+    }
+
+    private async Task OnEndAsync()
+    {
+        Debug.WriteLine($"Intro: OnEndAsync - Shell.Current = {(Shell.Current is null ? "null" : "not null")}");
+        if (Shell.Current is null) return;
+
+        try
+        {
             await Shell.Current.GoToAsync("//menu");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Intro: navigation failed: {ex.GetType().Name}: {ex.Message}");
+        }
     }
-
-    void MediaElement_MediaOpened(object sender, EventArgs e)
-    {
-        _played = true; // пошло видео — фолбэк не сработает
-    }
-
-    void MediaElement_MediaEnded(object sender, EventArgs e)
-        => Shell.Current.GoToAsync("//menu");
-
-    void MediaElement_MediaFailed(object sender, MediaFailedEventArgs e)
-        => Shell.Current.GoToAsync("//menu");
-
-    void OnTapped(object sender, TappedEventArgs e)
-        => Shell.Current.GoToAsync("//menu"); // «пропустить»
 }

@@ -3,13 +3,17 @@
     x:Class="PotionPanic.App"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
     <Application.Resources>
         <ResourceDictionary>
+
+            <!-- Палитра -->
             <Color x:Key="PrimaryNavy">#0B1630</Color>
             <Color x:Key="DeepSpace">#0E1D3F</Color>
             <Color x:Key="RoyalBlue">#122552</Color>
             <Color x:Key="AccentGold">#D4AF37</Color>
 
+            <!-- Базовые стили -->
             <Style TargetType="ContentPage">
                 <Setter Property="BackgroundColor" Value="{StaticResource PrimaryNavy}" />
                 <Setter Property="Padding" Value="16" />
@@ -22,10 +26,59 @@
                 <Setter Property="Padding" Value="12,8" />
             </Style>
 
-            <!-- при желании можно добавить общий стиль Label -->
-            <!--<Style TargetType="Label">
-        <Setter Property="TextColor" Value="{StaticResource AccentGold}" />
-      </Style>-->
+            <!-- ====== Шрифт и текстовые стили ====== -->
+
+            <!-- строковый ресурс с алиасом шрифта -->
+            <x:String x:Key="FontTranscity">Transcity</x:String>
+
+            <!-- Заголовки -->
+            <Style TargetType="Label" x:Key="TitleLabel">
+                <Setter Property="TextColor" Value="{StaticResource AccentGold}" />
+                <Setter Property="FontFamily" Value="{StaticResource FontTranscity}" />
+                <Setter Property="FontSize" Value="28" />
+            </Style>
+
+            <!-- Обычный текст -->
+            <Style TargetType="Label" x:Key="BodyLabel">
+                <Setter Property="TextColor" Value="{StaticResource AccentGold}" />
+                <Setter Property="FontFamily" Value="{StaticResource FontTranscity}" />
+                <Setter Property="FontSize" Value="18" />
+            </Style>
+
+            <Style TargetType="Button" x:Key="GoldButton">
+                <Setter Property="BackgroundColor" Value="{StaticResource AccentGold}" />
+                <Setter Property="TextColor" Value="{StaticResource PrimaryNavy}" />
+                <Setter Property="CornerRadius" Value="18" />
+                <Setter Property="Padding" Value="18,12" />
+                <Setter Property="FontFamily" Value="{StaticResource FontTranscity}" />
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="Shadow">
+                    <Setter.Value>
+                        <Shadow Brush="Black" Radius="8" Opacity="0.35" />
+                    </Setter.Value>
+                </Setter>
+
+                <!-- состояние нажатия -->
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#C9A233" />
+                                    <Setter Property="TranslationY" Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="Opacity" Value="0.6" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

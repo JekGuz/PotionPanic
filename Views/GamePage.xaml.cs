@@ -1,61 +1,61 @@
+using System.Globalization;
+using PotionPanic.Resources;
+
 namespace PotionPanic.Views;
 
 public partial class GamePage : ContentPage
 {
-    enum Ingredient { Mushroom, Crystal, Herb, Feather, Eye, Root }
-
-    readonly Random _rng = new();
-    List<Ingredient> _recipe = new();
-    int _index = 0;
-    int _score = 0;
+    // Текущее состояние игры (подставь свои значения/обновляй их из логики игры)
+    string currentRecipeString = "Crystal-Mushroom-Feather";
+    int currentStep = 0;
+    int totalSteps = 3;
+    int currentScore = 0;
 
     public GamePage()
     {
         InitializeComponent();
-        NewRecipe();
+
+        // начальная установка текстов по текущей культуре
+        UpdateUiTexts(currentRecipeString, currentStep, totalSteps, currentScore);
     }
 
-    void NewRecipe()
+    // Обновление трёх лейблов
+    void UpdateUiTexts(string recipe, int step, int total, int score)
     {
-        // длина рецепта растёт с очками
-        var len = Math.Clamp(3 + _score / 50, 3, 10);
-        _recipe = Enumerable.Range(0, len)
-            .Select(_ => (Ingredient)_rng.Next(0, 6))
-            .ToList();
-        _index = 0;
-
-        RecipeLabel.Text = $"Recipe: {string.Join("-", _recipe)}";
-        ProgressLabel.Text = $"Step: {_index}/{_recipe.Count}";
-        ScoreLabel.Text = $"Score: {_score}";
+        RecipeLabel.Text = string.Format(AppResources.RecipeFormat, recipe);
+        ProgressLabel.Text = string.Format(AppResources.StepFormat, step, total);
+        ScoreLabel.Text = string.Format(AppResources.ScoreFormat, score);
     }
 
-    async void OnIngredient(object sender, EventArgs e)
+    // Применение культуры + принудительное обновление лейблов
+    void ApplyCulture(string cultureCode)
     {
-        if (sender is not Button b) return;
-        if (!Enum.TryParse<Ingredient>(b.Text, out var ing)) return;
+        var ci = new CultureInfo(cultureCode);
+        CultureInfo.CurrentUICulture = ci;
+        CultureInfo.CurrentCulture = ci;
+        AppResources.Culture = ci; // важно для .resx
 
-        var expected = _recipe[_index];
-        if (ing == expected)
-        {
-            _index++;
-            _score += 10;
-            ProgressLabel.Text = $"Step: {_index}/{_recipe.Count}";
-            ScoreLabel.Text = $"Score: {_score}";
-
-            if (_index >= _recipe.Count)
-            {
-                await DisplayAlert("Potion", "Perfect! New recipe.", "OK");
-                NewRecipe();
-            }
-        }
-        else
-        {
-            await DisplayAlert("Boom!", "Wrong ingredient. Try again.", "OK");
-            _score = 0;
-            NewRecipe();
-        }
+        // переотрисовать тексты
+        UpdateUiTexts(currentRecipeString, currentStep, totalSteps, currentScore);
     }
 
-    async void Back_Clicked(object sender, EventArgs e)
-        => await Shell.Current.GoToAsync("//menu");
+    // Обработчики кнопок языка
+    void LangEn_Clicked(object sender, EventArgs e) => ApplyCulture("en");
+    void LangRu_Clicked(object sender, EventArgs e) => ApplyCulture("ru");
+    void LangEt_Clicked(object sender, EventArgs e) => ApplyCulture("et");
+
+    // Когда меняется прогресс в игре — не забудь вызвать:
+    void OnIngredient(object sender, EventArgs e)
+    {
+        // ... твоя логика
+        // обнови состояние, например:
+        // currentStep++;
+        // currentScore += 10;
+        UpdateUiTexts(currentRecipeString, currentStep, totalSteps, currentScore);
+    }
+
+    void Back_Clicked(object sender, EventArgs e)
+    {
+        Shell.Current.GoToAsync("//menu");
+    }
 }

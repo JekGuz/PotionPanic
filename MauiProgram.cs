@@ -8,10 +8,11 @@ namespace PotionPanic
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+
             builder
-            .UseMauiApp<App>()
-            .UseMauiCommunityToolkit()// Toolkit
-            .UseMauiCommunityToolkitMediaElement() // MediaElement
+                .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
+                .UseMauiCommunityToolkitMediaElement()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -20,7 +21,7 @@ namespace PotionPanic
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

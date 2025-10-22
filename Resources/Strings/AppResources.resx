@@ -138,4 +138,43 @@
   <data name="ET" xml:space="preserve">
     <value>Estonian</value>
   </data>
+  <data name="RecipeLabel" xml:space="preserve">
+    <value>Task</value>
+  </data>
+  <data name="ProgressLabel" xml:space="preserve">
+    <value>Progress</value>
+  </data>
+  <data name="ScoreLabel" xml:space="preserve">
+    <value>Score</value>
+  </data>
+  <data name="Ing_Mushroom" xml:space="preserve">
+    <value>Mushroom</value>
+  </data>
+  <data name="Ing_Crystal" xml:space="preserve">
+    <value>Crystal</value>
+  </data>
+  <data name="Ing_Herb" xml:space="preserve">
+    <value>Herb</value>
+  </data>
+  <data name="Ing_Feather" xml:space="preserve">
+    <value>Feather</value>
+  </data>
+  <data name="Ing_Eye" xml:space="preserve">
+    <value>Eye</value>
+  </data>
+  <data name="Ing_Root" xml:space="preserve">
+    <value>Root</value>
+  </data>
+  <data name="BackToMenu" xml:space="preserve">
+    <value>Back to Menu</value>
+  </data>
+  <data name="RecipeFormat" xml:space="preserve">
+    <value>Recipe: {0}</value>
+  </data>
+  <data name="StepFormat" xml:space="preserve">
+    <value>Step: {0}/{1}</value>
+  </data>
+  <data name="ScoreFormat" xml:space="preserve">
+    <value>Score: {0}</value>
+  </data>
 </root>

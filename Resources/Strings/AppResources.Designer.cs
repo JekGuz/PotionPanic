@@ -61,6 +61,15 @@ namespace PotionPanic.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back to Menu.
+        /// </summary>
+        public static string BackToMenu {
+            get {
+                return ResourceManager.GetString("BackToMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Challenge.
         /// </summary>
         public static string Challenge {
@@ -79,11 +88,92 @@ namespace PotionPanic.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Crystal.
+        /// </summary>
+        public static string Ing_Crystal {
+            get {
+                return ResourceManager.GetString("Ing_Crystal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Eye.
+        /// </summary>
+        public static string Ing_Eye {
+            get {
+                return ResourceManager.GetString("Ing_Eye", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Feather.
+        /// </summary>
+        public static string Ing_Feather {
+            get {
+                return ResourceManager.GetString("Ing_Feather", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Herb.
+        /// </summary>
+        public static string Ing_Herb {
+            get {
+                return ResourceManager.GetString("Ing_Herb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mushroom.
+        /// </summary>
+        public static string Ing_Mushroom {
+            get {
+                return ResourceManager.GetString("Ing_Mushroom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Root.
+        /// </summary>
+        public static string Ing_Root {
+            get {
+                return ResourceManager.GetString("Ing_Root", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         public static string Language {
             get {
                 return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Progress.
+        /// </summary>
+        public static string ProgressLabel {
+            get {
+                return ResourceManager.GetString("ProgressLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recipe: {0}.
+        /// </summary>
+        public static string RecipeFormat {
+            get {
+                return ResourceManager.GetString("RecipeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Task.
+        /// </summary>
+        public static string RecipeLabel {
+            get {
+                return ResourceManager.GetString("RecipeLabel", resourceCulture);
             }
         }
         
@@ -106,11 +196,38 @@ namespace PotionPanic.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Score: {0}.
+        /// </summary>
+        public static string ScoreFormat {
+            get {
+                return ResourceManager.GetString("ScoreFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Score.
+        /// </summary>
+        public static string ScoreLabel {
+            get {
+                return ResourceManager.GetString("ScoreLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
         public static string Start {
             get {
                 return ResourceManager.GetString("Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Step: {0}/{1}.
+        /// </summary>
+        public static string StepFormat {
+            get {
+                return ResourceManager.GetString("StepFormat", resourceCulture);
             }
         }
         
