@@ -4,16 +4,15 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:res="clr-namespace:PotionPanic.Resources"
-    Title="Game"
+    Title="{x:Static res:AppResources.Title}"
     Padding="0"
     BackgroundColor="{StaticResource DeepSpace}"
     NavigationPage.HasNavigationBar="False"
     Shell.NavBarIsVisible="False">
 
-    <!-- Абсолютный слой -->
     <AbsoluteLayout>
 
-        <!-- Фон -->
+        <!-- фон -->
         <Image Source="bg.jpg"
                Aspect="AspectFill"
                InputTransparent="True"
@@ -24,7 +23,7 @@
                  AbsoluteLayout.LayoutFlags="All"
                  AbsoluteLayout.LayoutBounds="0,0,1,1" />
 
-        <!-- Центральный блок -->
+        <!-- центральный блок -->
         <Grid RowDefinitions="*,Auto,*"
               AbsoluteLayout.LayoutFlags="All"
               AbsoluteLayout.LayoutBounds="0,0,1,1">
@@ -47,47 +46,75 @@
                        Style="{StaticResource BodyLabel}"
                        HorizontalTextAlignment="Center" />
 
-                <!-- Кнопки ингредиентов -->
-                <Grid ColumnDefinitions="*,*"
-                      RowDefinitions="Auto,Auto,Auto"
-                      ColumnSpacing="12" RowSpacing="12">
-                    <Button Grid.Row="0" 
-                            Grid.Column="0" 
-                            Text="{x:Static res:AppResources.Ing_Mushroom}" 
-                            CommandParameter="Mushroom" 
-                            Clicked="OnIngredient"/>
-                    <Button Grid.Row="0" 
-                            Grid.Column="1" 
-                            Text="{x:Static res:AppResources.Ing_Crystal}"  
-                            CommandParameter="Crystal"
-                            Clicked="OnIngredient"/>
-                    <Button Grid.Row="1" 
-                            Grid.Column="0" 
-                            Text="{x:Static res:AppResources.Ing_Herb}"     
-                            CommandParameter="Herb"
-                            Clicked="OnIngredient"/>
-                    <Button Grid.Row="1" 
-                            Grid.Column="1" 
-                            Text="{x:Static res:AppResources.Ing_Feather}"  
-                            CommandParameter="Feather"
-                            Clicked="OnIngredient"/>
-                    <Button Grid.Row="2" 
-                            Grid.Column="0" 
-                            Text="{x:Static res:AppResources.Ing_Eye}"      
-                            CommandParameter="Eye"
-                            Clicked="OnIngredient"/>
-                    <Button Grid.Row="2" Grid.Column="1" 
-                            Text="{x:Static res:AppResources.Ing_Root}"
-                            CommandParameter="Root"
-                            Clicked="OnIngredient"/>
+                <!-- кнопки ингредиентов -->
+                <Grid ColumnDefinitions="Auto,Auto"
+                    RowDefinitions="Auto,Auto,Auto"
+                    ColumnSpacing="12"
+                    RowSpacing="12"
+                    HorizontalOptions="Center">
+
+                    <Button x:Name="BtnMushroom"
+                        Grid.Row="0" Grid.Column="0"
+                        Text="{x:Static res:AppResources.Ing_Mushroom}"
+                        CommandParameter="Mushroom"
+                        Padding="18,12"
+                        MinimumWidthRequest="150"
+                        TextTransform="None"
+                        Clicked="OnIngredient"/>
+
+                    <Button x:Name="BtnCrystal"
+                        Grid.Row="0" Grid.Column="1"
+                        Text="{x:Static res:AppResources.Ing_Crystal}"
+                        CommandParameter="Crystal"
+                        Padding="18,12"
+                        MinimumWidthRequest="150"
+                        TextTransform="None"
+                        Clicked="OnIngredient"/>
+
+                    <Button x:Name="BtnHerb"
+                        Grid.Row="1" Grid.Column="0"
+                        Text="{x:Static res:AppResources.Ing_Herb}"
+                        CommandParameter="Herb"
+                        Padding="18,12"
+                        MinimumWidthRequest="150"
+                        TextTransform="None"
+                        Clicked="OnIngredient"/>
+
+                    <Button x:Name="BtnFeather"
+                        Grid.Row="1" Grid.Column="1"
+                        Text="{x:Static res:AppResources.Ing_Feather}"
+                        CommandParameter="Feather"
+                        Padding="18,12"
+                        MinimumWidthRequest="150"
+                        TextTransform="None"
+                        Clicked="OnIngredient"/>
+
+                    <Button x:Name="BtnEye"
+                        Grid.Row="2" Grid.Column="0"
+                        Text="{x:Static res:AppResources.Ing_Eye}"
+                        CommandParameter="Eye"
+                        Padding="18,12"
+                        MinimumWidthRequest="150"
+                        TextTransform="None"
+                        Clicked="OnIngredient"/>
+
+                    <Button x:Name="BtnRoot"
+                        Grid.Row="2" Grid.Column="1"
+                        Text="{x:Static res:AppResources.Ing_Root}"
+                        CommandParameter="Root"
+                        Padding="18,12"
+                        MinimumWidthRequest="150"
+                        TextTransform="None"
+                        Clicked="OnIngredient"/>
                 </Grid>
 
-                <Button Text="{x:Static res:AppResources.BackToMenu}"
-                        Clicked="Back_Clicked"/>
+                <Button x:Name="BtnBack"
+                    Text="{x:Static res:AppResources.BackToMenu}"
+                    Clicked="Back_Clicked"/>
             </VerticalStackLayout>
         </Grid>
 
-        <!-- Котёл внизу -->
+        <!-- котёл -->
         <Image x:Name="Cauldron"
                Source="cauldron.png"
                WidthRequest="160"
@@ -97,10 +124,10 @@
                TranslationY="-16"
                InputTransparent="True"/>
 
-        <!-- Слой для искр -->
+        <!-- слой для искр -->
         <Grid x:Name="FXLayer"
               InputTransparent="True"
               AbsoluteLayout.LayoutFlags="All"
-              AbsoluteLayout.LayoutBounds="0.5,0,1,1"/>
+              AbsoluteLayout.LayoutBounds="0,0,1,1"/>
     </AbsoluteLayout>
 </ContentPage>
