@@ -14,40 +14,64 @@ public partial class MenuPage : ContentPage
     {
         base.OnAppearing();
         ApplyTexts();
-        // Если Switch используем как “циклическую” кнопку — держим его в положении Off
-        // чтобы визуально не вводил в заблуждение
-        if (LangSwitch.IsToggled) LangSwitch.IsToggled = false;
+        HighlightActiveLanguage();
     }
 
-    // Перерисовать все тексты по текущей культуре
     void ApplyTexts()
     {
         TitleLabel.Text = AppResources.Title;
         StartBtn.Text = AppResources.Start;
         ChallengeBtn.Text = AppResources.Challenge;
         ResultsBtn.Text = AppResources.Results;
-
-        LangLabel.Text = AppResources.Language;
-        LangCodesLabel.Text = $"{AppResources.RU} / {AppResources.ET} / EN";
-        // Заголовок страницы — если используешь Title из XAML, можно не трогать
         Title = AppResources.Title;
     }
 
-    // Переключатель языка: крутим EN→RU→ET→EN
-    void LangSwitch_Toggled(object sender, ToggledEventArgs e)
+    void HighlightActiveLanguage()
     {
-        var next = LocalizationService.Next();
-        LocalizationService.Apply(next);
-        ApplyTexts();
-        // Сбрасываем переключатель обратно (он выполняет роль кнопки)
-        LangSwitch.IsToggled = false;
+        // Сбрасываем все флажки
+        var en = this.FindByName<ImageButton>("FlagEN");
+        var ru = this.FindByName<ImageButton>("FlagRU");
+        var et = this.FindByName<ImageButton>("FlagET");
+        if (en is null || ru is null || et is null) return;
+
+        
+        en.Opacity = ru.Opacity = et.Opacity = 0.7;
+        en.Scale = ru.Scale = et.Scale = 1.0;
+
+        // Выделяем активный язык
+        switch (LocalizationService.CurrentCode)
+        {
+            case "ru": ru.Opacity = 1.0; ru.Scale = 1.08; break;
+            case "et": et.Opacity = 1.0; et.Scale = 1.08; break;
+            default: en.Opacity = 1.0; en.Scale = 1.08; break;
+        }
     }
 
-    // Твои обработчики (оставь как были)
-    void StartBtn_Clicked(object sender, EventArgs e)
+    // Флажки языка
+    void LangEn_Clicked(object s, EventArgs e)
     {
-        Shell.Current.GoToAsync("//game"); // или твой маршрут
+        LocalizationService.Apply("en");
+        ApplyTexts();
+        HighlightActiveLanguage();
     }
+
+    void LangRu_Clicked(object s, EventArgs e)
+    {
+        LocalizationService.Apply("ru");
+        ApplyTexts();
+        HighlightActiveLanguage();
+    }
+
+    void LangEt_Clicked(object s, EventArgs e)
+    {
+        LocalizationService.Apply("et");
+        ApplyTexts();
+        HighlightActiveLanguage();
+    }
+
+    // Кнопки меню
+    void StartBtn_Clicked(object sender, EventArgs e)
+        => Shell.Current.GoToAsync("//game");
 
     void ChallengeBtn_Clicked(object sender, EventArgs e)
     {

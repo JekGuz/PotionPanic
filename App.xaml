@@ -79,6 +79,17 @@
                 </Setter>
             </Style>
 
+            <!-- Не хватает чтобы кнопки были более выделяемые чем фон -->
+            <!-- Мягкая золотая подсветка -->
+            <Shadow x:Key="SoftGoldGlow"
+        Brush="{StaticResource AccentGold}"
+        Radius="14" Opacity="0.55" Offset="0,6" />
+
+            <!-- Усиленная (на нажатие) -->
+            <Shadow x:Key="StrongGoldGlow"
+        Brush="{StaticResource AccentGold}"
+        Radius="22" Opacity="0.75" Offset="0,8" />
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

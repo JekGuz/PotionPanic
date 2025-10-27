@@ -1,14 +1,23 @@
 using System.Diagnostics;
-using System.IO;
 using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Maui.Core.Primitives;
+using CommunityToolkit.Maui.Core.Primitives; // MediaFailedEventArgs
 using CommunityToolkit.Maui.Views;
+using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 
 namespace PotionPanic.Views;
 
 public partial class IntroPage : ContentPage
 {
-    public IntroPage() => InitializeComponent();
+    bool _completed; // защита от повторного выхода
+
+    public IntroPage()
+    {
+        InitializeComponent();
+        // iOS: реальный фуллскрин без Safe Area
+        On<iOS>().SetUseSafeArea(false);
+        Padding = 0;
+    }
 
     protected override async void OnAppearing()
     {
@@ -29,35 +38,38 @@ public partial class IntroPage : ContentPage
         catch (Exception ex)
         {
             Debug.WriteLine($"Intro open error: {ex.GetType().Name}: {ex.Message}");
-            await OnEndAsync();
+            await SafeExitAsync();
         }
+    }
+
+    void OnOpened(object? s, EventArgs e)
+    {
+        _ = SkipBtn.FadeTo(0.85, 250);
     }
 
     async void OnFailed(object? sender, MediaFailedEventArgs e)
     {
         Debug.WriteLine($"Intro failed: {e.ErrorMessage}");
-        await OnEndAsync();
+        await SafeExitAsync();
     }
 
     async void OnEnded(object? sender, EventArgs e)
     {
         Debug.WriteLine("Intro: MediaEnded fired");
-        await OnEndAsync();
+        await SafeExitAsync();
     }
 
-    void OnOpened(object? s, EventArgs e)
+    async Task SafeExitAsync()
     {
-        SkipBtn.FadeTo(0.85, 250);
-    }
+        if (_completed) return;
+        _completed = true;
 
-    private async Task OnEndAsync()
-    {
-        Debug.WriteLine($"Intro: OnEndAsync - Shell.Current = {(Shell.Current is null ? "null" : "not null")}");
-        if (Shell.Current is null) return;
+        try { if (Blackout != null) await Blackout.FadeTo(1, 120); } catch { }
 
         try
         {
-            await Shell.Current.GoToAsync("//menu");
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+                await Shell.Current.GoToAsync("//menu"));
         }
         catch (Exception ex)
         {

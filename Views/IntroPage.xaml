@@ -4,8 +4,11 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Padding="0"
     BackgroundColor="#000"
-    NavigationPage.HasNavigationBar="False">
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarIsVisible="False">
 
     <AbsoluteLayout>
 
@@ -22,7 +25,7 @@
             MediaFailed="OnFailed"
             MediaEnded="OnEnded" />
 
-        <!-- Кнопка Skip (покажем после открытия видео) -->
+        <!-- Кнопка Skip -->
         <Button
             x:Name="SkipBtn"
             Text="Skip"
@@ -32,5 +35,15 @@
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds="1,1,-1,-1"
             Clicked="OnEnded" />
+
+        <!-- затемняющий слой для мягкого выхода -->
+        <BoxView
+            x:Name="Blackout"
+            Color="Black"
+            Opacity="0"
+            InputTransparent="True"
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1" />
+
     </AbsoluteLayout>
 </ContentPage>

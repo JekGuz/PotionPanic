@@ -8,41 +8,58 @@
     BackgroundColor="{StaticResource PrimaryNavy}">
 
     <Grid>
-
-        <!-- Фон меню -->
-        <Image Source="fon4.png"
-               Aspect="AspectFill"
-               InputTransparent="True" />
-
-        <!-- Лёгкое затемнение для контраста текста/кнопок -->
+        <Image Source="fon4.png" Aspect="AspectFill" InputTransparent="True" />
         <BoxView Color="#660B1630" InputTransparent="True" />
 
-        <!-- Контент меню -->
         <VerticalStackLayout Spacing="16" Padding="16">
-
-            <!-- Заголовок -->
             <Label x:Name="TitleLabel"
                    Style="{StaticResource TitleLabel}"
                    Text="{x:Static resources:AppResources.Title}" />
 
-            <!-- Кнопки  -->
-            <Button x:Name="StartBtn"     
+            <!-- Кнопки внизу -->
+            <Button x:Name="StartBtn"
                     Style="{StaticResource GoldButton}" 
-                    Clicked="StartBtn_Clicked"/>
+                    Clicked="StartBtn_Clicked"
+                    Shadow="{StaticResource SoftGoldGlow}"/>
             <Button x:Name="ChallengeBtn" 
                     Style="{StaticResource GoldButton}" 
-                    Clicked="ChallengeBtn_Clicked"/>
-            <Button x:Name="ResultsBtn"   
+                    Clicked="ChallengeBtn_Clicked"
+                    Shadow="{StaticResource SoftGoldGlow}"/>
+            <Button x:Name="ResultsBtn"
                     Style="{StaticResource GoldButton}" 
-                    Clicked="ResultsBtn_Clicked"/>
+                    Clicked="ResultsBtn_Clicked"
+                    Shadow="{StaticResource SoftGoldGlow}"/>
 
-            <!-- Переключатель языка -->
-            <HorizontalStackLayout Spacing="8" Margin="0,24,0,0">
-                <Label x:Name="LangLabel" Style="{StaticResource BodyLabel}" />
-                <Switch x:Name="LangSwitch" Toggled="LangSwitch_Toggled" />
-                <Label x:Name="LangCodesLabel" Style="{StaticResource BodyLabel}" />
+            <!-- Выбор языка флажками -->
+            <HorizontalStackLayout Spacing="12" 
+                                   Margin="0,24,0,0" 
+                                   HorizontalOptions="Center">
+                
+                <ImageButton x:Name="FlagEN" 
+                             Source="flag_eng.png"
+                             BackgroundColor="Transparent" 
+                             WidthRequest="55" HeightRequest="55" 
+                             Padding="0"
+                             Clicked="LangEn_Clicked"  
+                             SemanticProperties.Description="English"
+                             Shadow="{StaticResource SoftGoldGlow}"/>
+                <ImageButton x:Name="FlagRU" 
+                             Source="flag_ru.png"
+                             BackgroundColor="Transparent" 
+                             WidthRequest="55" HeightRequest="55" 
+                             Padding="0"
+                             Clicked="LangRu_Clicked"  
+                             SemanticProperties.Description="Русский"
+                             Shadow="{StaticResource SoftGoldGlow}"/>
+                <ImageButton x:Name="FlagET" 
+                             Source="flag_ee.png"
+                             BackgroundColor="Transparent" 
+                             WidthRequest="55" HeightRequest="55" 
+                             Padding="0"
+                             Clicked="LangEt_Clicked"  
+                             SemanticProperties.Description="Eesti"
+                             Shadow="{StaticResource SoftGoldGlow}"/>
             </HorizontalStackLayout>
-
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

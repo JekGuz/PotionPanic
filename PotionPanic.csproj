@@ -3,15 +3,6 @@
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
-		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net9.0-tizen</TargetFrameworks> -->
-
-		<!-- Note for MacCatalyst:
-		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
-		When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
-		The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
-		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
-		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
 		<OutputType>Exe</OutputType>
 		<RootNamespace>PotionPanic</RootNamespace>
@@ -20,24 +11,21 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
-		<!-- Display name -->
+		<!-- App info -->
 		<ApplicationTitle>PotionPanic</ApplicationTitle>
-
-		<!-- App Identifier -->
 		<ApplicationId>com.companyname.potionpanic</ApplicationId>
-
-		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
-		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
+		<!-- Windows packaging -->
 		<WindowsPackageType>None</WindowsPackageType>
 
+		<!-- Platform minimums -->
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
-		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<TargetPlatformMinVersion  Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
@@ -48,14 +36,15 @@
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splashicon.png" Color="#0B1630" BaseSize="300,300" />
 
-		<!-- Images -->
-		<MauiImage Include="Resources\Images\*" />
+		<!-- Images (ONE recursive include only!) -->
+		<MauiImage Include="Resources\Images\**" />
+		<!-- demo image rule may stay; it's an update to the included file -->
 		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="600,300" />
-		
-		<!-- Custom Fonts -->
-		<MauiFont Include="Resources\Fonts\*" />
 
-		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<!-- Fonts -->
+		<MauiFont Include="Resources\Fonts\**" />
+
+		<!-- Raw assets -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
@@ -66,43 +55,45 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.10" />
 	</ItemGroup>
 
+	<!-- Strongly-typed resources -->
 	<ItemGroup>
-	  <Compile Update="Resources\Strings\AppResources.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>AppResources.resx</DependentUpon>
-	  </Compile>
+		<Compile Update="Resources\Strings\AppResources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>AppResources.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Update="Resources\Strings\AppResources.et.resx">
-	    <Generator></Generator>
-	    <CustomToolNamespace>PotionPanic.Resources</CustomToolNamespace>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Resources\Strings\AppResources.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <CustomToolNamespace>PotionPanic.Resources</CustomToolNamespace>
-	    <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Resources\Strings\AppResources.ru.resx">
-	    <CustomToolNamespace>PotionPanic.Resources</CustomToolNamespace>
-	    <Generator></Generator>
-	  </EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings\AppResources.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<CustomToolNamespace>PotionPanic.Resources</CustomToolNamespace>
+			<LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings\AppResources.ru.resx">
+			<Generator></Generator>
+			<CustomToolNamespace>PotionPanic.Resources</CustomToolNamespace>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings\AppResources.et.resx">
+			<Generator></Generator>
+			<CustomToolNamespace>PotionPanic.Resources</CustomToolNamespace>
+		</EmbeddedResource>
 	</ItemGroup>
 
+	<!-- XAML pages -->
 	<ItemGroup>
-	  <MauiXaml Update="Views\GamePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\IntroPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\MenuPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\ResultsPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<MauiXaml Update="Views\GamePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\IntroPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\MenuPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\ResultsPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 
 </Project>
