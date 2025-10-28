@@ -1,79 +1,59 @@
-using System.Diagnostics;
-using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Maui.Core.Primitives; // MediaFailedEventArgs
-using CommunityToolkit.Maui.Views;
-using Microsoft.Maui.Controls.PlatformConfiguration;
-using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
+﻿using System.Threading;
 
 namespace PotionPanic.Views;
 
 public partial class IntroPage : ContentPage
 {
-    bool _completed; // ������ �� ���������� ������
+    CancellationTokenSource? _cts;
+    bool _navigated;
 
     public IntroPage()
     {
         InitializeComponent();
-        // iOS: �������� ��������� ��� Safe Area
-        On<iOS>().SetUseSafeArea(false);
-        Padding = 0;
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
 
-        try
-        {
-            Debug.WriteLine("Intro: OnAppearing start");
-
-            using var inStream = await FileSystem.OpenAppPackageFileAsync("intro.mp4");
-            var tempPath = Path.Combine(FileSystem.CacheDirectory, "intro_intro.mp4");
-            using (var outStream = File.Create(tempPath))
-                await inStream.CopyToAsync(outStream);
-
-            Video.Source = MediaSource.FromFile(tempPath);
-            Debug.WriteLine($"Intro: video set at {tempPath}");
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Intro open error: {ex.GetType().Name}: {ex.Message}");
-            await SafeExitAsync();
-        }
-    }
-
-    void OnOpened(object? s, EventArgs e)
-    {
-        _ = SkipBtn.FadeTo(0.85, 250);
-    }
-
-    async void OnFailed(object? sender, MediaFailedEventArgs e)
-    {
-        Debug.WriteLine($"Intro failed: {e.ErrorMessage}");
-        await SafeExitAsync();
-    }
-
-    async void OnEnded(object? sender, EventArgs e)
-    {
-        Debug.WriteLine("Intro: MediaEnded fired");
-        await SafeExitAsync();
-    }
-
-    async Task SafeExitAsync()
-    {
-        if (_completed) return;
-        _completed = true;
-
-        try { if (Blackout != null) await Blackout.FadeTo(1, 120); } catch { }
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
 
         try
         {
-            await MainThread.InvokeOnMainThreadAsync(async () =>
-                await Shell.Current.GoToAsync("//menu"));
+            // Ждём ровно 6 секунд или до нажатия Skip
+            await Task.Delay(TimeSpan.FromSeconds(6), _cts.Token);
+            await GoToMenuOnceAsync();
         }
-        catch (Exception ex)
+        catch (TaskCanceledException)
         {
-            Debug.WriteLine($"Intro: navigation failed: {ex.GetType().Name}: {ex.Message}");
+            // Skip или уход со страницы — нормально
         }
     }
+
+    protected override void OnDisappearing()
+    {
+        _cts?.Cancel();
+        _cts = null;
+        base.OnDisappearing();
+    }
+
+    async void OnSkipClicked(object? sender, EventArgs e)
+    {
+        _cts?.Cancel();
+        await GoToMenuOnceAsync();
+    }
+
+    async Task GoToMenuOnceAsync()
+    {
+        if (_navigated) return;
+        _navigated = true;
+
+        // Ставим Shell корнем (или GoTo на //menu, если маршрут есть)
+        Application.Current.MainPage = new AppShell();
+        await Shell.Current.GoToAsync("//menu");
+    }
+
+    // Блокируем аппаратную кнопку "Назад" на интро
+    protected override bool OnBackButtonPressed() => true;
 }

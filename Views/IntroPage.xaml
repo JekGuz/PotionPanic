@@ -1,49 +1,35 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="PotionPanic.Views.IntroPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    Padding="0"
-    BackgroundColor="#000"
-    NavigationPage.HasNavigationBar="False"
+    xmlns:controls="clr-namespace:PotionPanic.Controls"
+    x:Class="PotionPanic.Views.IntroPage"
+    BackgroundColor="Black"
     Shell.NavBarIsVisible="False"
-    Shell.TabBarIsVisible="False">
+    NavigationPage.HasNavigationBar="False"
+    Padding="0">
 
-    <AbsoluteLayout>
-
-        <!-- Видео на весь экран -->
-        <xct:MediaElement
+    <!-- Один-единственный видео-виджет -->
+    <Grid>
+        <controls:VideoPlayerView
             x:Name="Video"
-            ShouldAutoPlay="True"
-            ShouldShowPlaybackControls="False"
-            Aspect="AspectFill"
-            BackgroundColor="#000"
-            AbsoluteLayout.LayoutFlags="All"
-            AbsoluteLayout.LayoutBounds="0,0,1,1"
-            MediaOpened="OnOpened"
-            MediaFailed="OnFailed"
-            MediaEnded="OnEnded" />
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand" />
 
-        <!-- Кнопка Skip -->
-        <Button
-            x:Name="SkipBtn"
-            Text="Skip"
-            Opacity="0"
-            CornerRadius="14"
-            Margin="16"
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds="1,1,-1,-1"
-            Clicked="OnEnded" />
-
-        <!-- затемняющий слой для мягкого выхода -->
-        <BoxView
-            x:Name="Blackout"
-            Color="Black"
-            Opacity="0"
-            InputTransparent="True"
-            AbsoluteLayout.LayoutFlags="All"
-            AbsoluteLayout.LayoutBounds="0,0,1,1" />
-
-    </AbsoluteLayout>
+        <!-- Полупрозрачная кнопка Skip сверху справа -->
+        <Grid Padding="16"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="Start"
+              InputTransparent="False">
+            <Button x:Name="SkipButton"
+                    Text="Skip"
+                    Clicked="OnSkipClicked"
+                    HorizontalOptions="End"
+                    BackgroundColor="#66000000"
+                    TextColor="White"
+                    CornerRadius="20"
+                    Padding="16,10"
+                    Opacity="0.9" />
+        </Grid>
+    </Grid>
 </ContentPage>

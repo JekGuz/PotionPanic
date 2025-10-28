@@ -1,6 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
 
+#if ANDROID
+using PotionPanic.Controls;
+using PotionPanic.Platforms.Android;
+#endif
+
 namespace PotionPanic
 {
     public static class MauiProgram
@@ -19,6 +24,13 @@ namespace PotionPanic
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                     fonts.AddFont("Transcity.otf", "Transcity");
                 });
+
+#if ANDROID
+            builder.ConfigureMauiHandlers(handlers =>
+            {
+                handlers.AddHandler(typeof(VideoPlayerView), typeof(VideoPlayerHandler));
+            });
+#endif
 
 #if DEBUG
             builder.Logging.AddDebug();
