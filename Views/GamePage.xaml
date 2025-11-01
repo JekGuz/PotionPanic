@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:res="clr-namespace:PotionPanic.Resources"
+    xmlns:views="clr-namespace:PotionPanic.Views"
     Title="{x:Static res:AppResources.Title}"
     Padding="0"
     BackgroundColor="{StaticResource DeepSpace}"
@@ -22,6 +23,18 @@
                  InputTransparent="True"
                  AbsoluteLayout.LayoutFlags="All"
                  AbsoluteLayout.LayoutBounds="0,0,1,1" />
+
+        <!-- «бургер» -->
+        <Button Text="☰"
+                FontSize="22"
+                BackgroundColor="#66011140"
+                TextColor="White"
+                Padding="14,8"
+                CornerRadius="12"
+                Clicked="OnMenuClicked"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds="0,0,60,40"
+                Margin="12,12,0,0" />
 
         <!-- центральный блок -->
         <Grid RowDefinitions="*,Auto,*"
@@ -48,69 +61,69 @@
 
                 <!-- кнопки ингредиентов -->
                 <Grid ColumnDefinitions="Auto,Auto"
-                    RowDefinitions="Auto,Auto,Auto"
-                    ColumnSpacing="12"
-                    RowSpacing="12"
-                    HorizontalOptions="Center">
+                      RowDefinitions="Auto,Auto,Auto"
+                      ColumnSpacing="12"
+                      RowSpacing="12"
+                      HorizontalOptions="Center">
 
                     <Button x:Name="BtnMushroom"
-                        Grid.Row="0" Grid.Column="0"
-                        Text="{x:Static res:AppResources.Ing_Mushroom}"
-                        CommandParameter="Mushroom"
-                        Padding="18,12"
-                        MinimumWidthRequest="150"
-                        TextTransform="None"
-                        Clicked="OnIngredient"/>
+                            Grid.Row="0" Grid.Column="0"
+                            Text="{x:Static res:AppResources.Ing_Mushroom}"
+                            CommandParameter="Mushroom"
+                            Padding="18,12"
+                            MinimumWidthRequest="150"
+                            TextTransform="None"
+                            Clicked="OnIngredient"/>
 
                     <Button x:Name="BtnCrystal"
-                        Grid.Row="0" Grid.Column="1"
-                        Text="{x:Static res:AppResources.Ing_Crystal}"
-                        CommandParameter="Crystal"
-                        Padding="18,12"
-                        MinimumWidthRequest="150"
-                        TextTransform="None"
-                        Clicked="OnIngredient"/>
+                            Grid.Row="0" Grid.Column="1"
+                            Text="{x:Static res:AppResources.Ing_Crystal}"
+                            CommandParameter="Crystal"
+                            Padding="18,12"
+                            MinimumWidthRequest="150"
+                            TextTransform="None"
+                            Clicked="OnIngredient"/>
 
                     <Button x:Name="BtnHerb"
-                        Grid.Row="1" Grid.Column="0"
-                        Text="{x:Static res:AppResources.Ing_Herb}"
-                        CommandParameter="Herb"
-                        Padding="18,12"
-                        MinimumWidthRequest="150"
-                        TextTransform="None"
-                        Clicked="OnIngredient"/>
+                            Grid.Row="1" Grid.Column="0"
+                            Text="{x:Static res:AppResources.Ing_Herb}"
+                            CommandParameter="Herb"
+                            Padding="18,12"
+                            MinimumWidthRequest="150"
+                            TextTransform="None"
+                            Clicked="OnIngredient"/>
 
                     <Button x:Name="BtnFeather"
-                        Grid.Row="1" Grid.Column="1"
-                        Text="{x:Static res:AppResources.Ing_Feather}"
-                        CommandParameter="Feather"
-                        Padding="18,12"
-                        MinimumWidthRequest="150"
-                        TextTransform="None"
-                        Clicked="OnIngredient"/>
+                            Grid.Row="1" Grid.Column="1"
+                            Text="{x:Static res:AppResources.Ing_Feather}"
+                            CommandParameter="Feather"
+                            Padding="18,12"
+                            MinimumWidthRequest="150"
+                            TextTransform="None"
+                            Clicked="OnIngredient"/>
 
                     <Button x:Name="BtnEye"
-                        Grid.Row="2" Grid.Column="0"
-                        Text="{x:Static res:AppResources.Ing_Eye}"
-                        CommandParameter="Eye"
-                        Padding="18,12"
-                        MinimumWidthRequest="150"
-                        TextTransform="None"
-                        Clicked="OnIngredient"/>
+                            Grid.Row="2" Grid.Column="0"
+                            Text="{x:Static res:AppResources.Ing_Eye}"
+                            CommandParameter="Eye"
+                            Padding="18,12"
+                            MinimumWidthRequest="150"
+                            TextTransform="None"
+                            Clicked="OnIngredient"/>
 
                     <Button x:Name="BtnRoot"
-                        Grid.Row="2" Grid.Column="1"
-                        Text="{x:Static res:AppResources.Ing_Root}"
-                        CommandParameter="Root"
-                        Padding="18,12"
-                        MinimumWidthRequest="150"
-                        TextTransform="None"
-                        Clicked="OnIngredient"/>
+                            Grid.Row="2" Grid.Column="1"
+                            Text="{x:Static res:AppResources.Ing_Root}"
+                            CommandParameter="Root"
+                            Padding="18,12"
+                            MinimumWidthRequest="150"
+                            TextTransform="None"
+                            Clicked="OnIngredient"/>
                 </Grid>
 
                 <Button x:Name="BtnBack"
-                    Text="{x:Static res:AppResources.BackToMenu}"
-                    Clicked="Back_Clicked"/>
+                        Text="{x:Static res:AppResources.BackToMenu}"
+                        Clicked="Back_Clicked"/>
             </VerticalStackLayout>
         </Grid>
 
@@ -124,10 +137,38 @@
                TranslationY="-16"
                InputTransparent="True"/>
 
-        <!-- слой для искр -->
+        <!-- FX -->
         <Grid x:Name="FXLayer"
               InputTransparent="True"
               AbsoluteLayout.LayoutFlags="All"
               AbsoluteLayout.LayoutBounds="0,0,1,1"/>
+
+        <!-- полупрозрачная «дымка» -->
+        <BoxView x:Name="Dim"
+                 BackgroundColor="#80000000"
+                 Opacity="0"
+                 IsVisible="False"
+                 AbsoluteLayout.LayoutFlags="All"
+                 AbsoluteLayout.LayoutBounds="0,0,1,1">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCloseMenu"/>
+            </BoxView.GestureRecognizers>
+        </BoxView>
+
+        <!-- выезжающее боковое меню (узкая прозрачная панель) -->
+        <Grid x:Name="Drawer"
+              WidthRequest="320"
+              Padding="0"
+              BackgroundColor="Transparent"
+              IsVisible="False"
+              TranslationX="-340"
+              AbsoluteLayout.LayoutFlags="HeightProportional"
+              AbsoluteLayout.LayoutBounds="0,0,320,1">
+            <views:GameSideMenu x:Name="SideMenu"
+                                StartClicked="SideMenu_StartClicked"
+                                ChallengeClicked="SideMenu_ChallengeClicked"
+                                ResultsClicked="SideMenu_ResultsClicked" />
+        </Grid>
+
     </AbsoluteLayout>
 </ContentPage>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="PotionPanic.Views.GameSideMenu"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:res="clr-namespace:PotionPanic.Resources"
+    BackgroundColor="Transparent">
+
+    <!-- Узкая колонка с полупрозрачным фоном-картинкой -->
+    <Grid WidthRequest="320" Padding="18" RowSpacing="14">
+        <Image Source="menu_bg.jpg"
+               Aspect="AspectFill"
+               Opacity="0.25"
+               InputTransparent="True"
+               Grid.RowSpan="6" />
+
+        <VerticalStackLayout Spacing="14">
+            <Label Text="Potion Panic"
+                   FontFamily="Transcity"
+                   FontSize="26"
+                   TextColor="#F2E205"
+                   HorizontalOptions="Center" />
+
+            <Button Text="{x:Static res:AppResources.Start}"
+                    BackgroundColor="#F2E205"
+                    TextColor="#011140"
+                    FontAttributes="Bold"
+                    Clicked="OnStartClicked" />
+
+            <Button Text="{x:Static res:AppResources.Challenge}"
+                    BackgroundColor="#F2E205"
+                    TextColor="#011140"
+                    FontAttributes="Bold"
+                    Clicked="OnChallengeClicked" />
+
+            <Button Text="{x:Static res:AppResources.Results}"
+                    BackgroundColor="#F2E205"
+                    TextColor="#011140"
+                    FontAttributes="Bold"
+                    Clicked="OnResultsClicked" />
+
+            <Label Text="{x:Static res:AppResources.Language}"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   Margin="0,16,0,4"
+                   HorizontalOptions="Center" />
+
+            <!-- Флаги: EN / RU / ET -->
+            <Grid ColumnDefinitions="Auto,Auto,Auto"
+                  ColumnSpacing="16"
+                  HorizontalOptions="Center">
+
+                <Image Source="flag_eng.png" HeightRequest="40">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnEnglishTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Image Grid.Column="1" Source="flag_ru.png" HeightRequest="40">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnRussianTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Image Grid.Column="2" Source="flag_ee.png" HeightRequest="40">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnEstonianTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
+        </VerticalStackLayout>
+    </Grid>
+</ContentView>

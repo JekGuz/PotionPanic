@@ -86,6 +86,9 @@
 
 	<!-- XAML pages -->
 	<ItemGroup>
+		<MauiXaml Update="Views\GameSideMenu.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\GamePage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
