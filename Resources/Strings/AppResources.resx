@@ -177,4 +177,10 @@
   <data name="ScoreFormat" xml:space="preserve">
     <value>Score: {0}</value>
   </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
 </root>

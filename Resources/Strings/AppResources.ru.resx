@@ -177,4 +177,10 @@
   <data name="ScoreFormat" xml:space="preserve">
     <value>Очки: {0}</value>
   </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Очистить</value>
+  </data>
 </root>

@@ -1,5 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-using CommunityToolkit.Maui;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
+using PotionPanic.Services;
 
 #if ANDROID
 using PotionPanic.Controls;
@@ -25,6 +26,12 @@ namespace PotionPanic
                     fonts.AddFont("Transcity.otf", "Transcity");
                 });
 
+            // DI: репозиторий результатов
+            builder.Services.AddSingleton<IResultsRepository, ResultsRepository>();
+
+            // DI: сессия игры
+            builder.Services.AddSingleton<GameSessionService>();
+
 #if ANDROID
             builder.ConfigureMauiHandlers(handlers =>
             {
@@ -36,7 +43,13 @@ namespace PotionPanic
             builder.Logging.AddDebug();
 #endif
 
-            return builder.Build();
+            // Собираем приложение
+            var app = builder.Build();
+
+            // Даём доступ к ServiceProvider через наш хелпер
+            ServiceHelper.Configure(app.Services);
+
+            return app;
         }
     }
 }

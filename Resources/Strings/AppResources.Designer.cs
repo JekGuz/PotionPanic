@@ -79,6 +79,15 @@ namespace PotionPanic.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        public static string Clear {
+            get {
+                return ResourceManager.GetString("Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Estonian.
         /// </summary>
         public static string ET {
@@ -174,6 +183,15 @@ namespace PotionPanic.Resources {
         public static string RecipeLabel {
             get {
                 return ResourceManager.GetString("RecipeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        public static string Refresh {
+            get {
+                return ResourceManager.GetString("Refresh", resourceCulture);
             }
         }
         

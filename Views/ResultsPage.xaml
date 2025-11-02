@@ -1,12 +1,92 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PotionPanic.Views.ResultsPage"
-             Title="ResultsPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+<ContentPage
+    x:Class="PotionPanic.Views.ResultsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:res="clr-namespace:PotionPanic.Resources"
+    xmlns:viewmodels="clr-namespace:PotionPanic.ViewModels"
+    Title="{x:Static res:AppResources.Results}"
+    BackgroundColor="{StaticResource PrimaryNavy}">
+
+    <!-- Привязываем VM прямо из XAML -->
+    <ContentPage.BindingContext>
+        <viewmodels:ResultsViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <!-- фон в стиле меню -->
+        <Image Source="fon4.png" Aspect="AspectFill" InputTransparent="True" />
+        <BoxView Color="#660B1630" InputTransparent="True" />
+
+        <VerticalStackLayout Spacing="16" Padding="16">
+
+            <!-- Заголовок -->
+            <Label Style="{StaticResource TitleLabel}"
+                   Text="{x:Static res:AppResources.Results}" />
+
+            <!-- Список результатов -->
+            <CollectionView ItemsSource="{Binding Items}">
+                <CollectionView.EmptyView>
+                    <Label Text="No results yet"
+                           HorizontalOptions="Center"
+                           TextColor="White"
+                           Opacity="0.9"
+                           Margin="0,20,0,0"/>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="0,6"
+                               Padding="12"
+                               BackgroundColor="#22000000"
+                               BorderColor="#F2E205"
+                               CornerRadius="14"
+                               HasShadow="False">
+                            <Grid ColumnDefinitions="*,Auto"
+                                  RowDefinitions="Auto,Auto">
+                                <!-- Score крупно -->
+                                <Label Grid.Row="0" Grid.Column="0"
+                                       Text="{Binding Score}"
+                                       TextColor="#F2E205"
+                                       FontAttributes="Bold"
+                                       FontSize="20" />
+                                <!-- Длительность -->
+                                <Label Grid.Row="0" Grid.Column="1"
+                                       Text="{Binding DurationSec, StringFormat='{0}s'}"
+                                       TextColor="LightGray"
+                                       FontSize="12" />
+                                <!-- Дата и имя -->
+                                <Label Grid.Row="1" Grid.ColumnSpan="2"
+                                        Text="{Binding PlayerName}"
+                                        TextColor="#F2E205"
+                                        FontAttributes="Bold"
+                                        FontSize="13" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Кнопки внизу -->
+            <HorizontalStackLayout Spacing="12"
+                                   Margin="0,8,0,0"
+                                   HorizontalOptions="Center">
+                <Button Text="{x:Static res:AppResources.BackToMenu}"
+                        Style="{StaticResource GoldButton}"
+                        Command="{Binding BackToMenuCommand}"
+                        Shadow="{StaticResource SoftGoldGlow}" />
+
+                <Button Text="{x:Static res:AppResources.Refresh}"
+                        Style="{StaticResource GoldButton}"
+                        Command="{Binding RefreshCommand}"
+                        Shadow="{StaticResource SoftGoldGlow}" />
+
+                <Button Text="{x:Static res:AppResources.Clear}"
+                        BackgroundColor="#F25C05"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        Command="{Binding ClearCommand}" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

@@ -177,4 +177,10 @@
   <data name="ScoreFormat" xml:space="preserve">
     <value>Punktid: {0}</value>
   </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Värskenda</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Tühjenda</value>
+  </data>
 </root>

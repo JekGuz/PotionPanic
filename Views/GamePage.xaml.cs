@@ -1,33 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.Maui;                       // Rect
-using Microsoft.Maui.ApplicationModel;      // MainThread
-using Microsoft.Maui.Graphics;              // Color.FromArgb, Rect
-using Microsoft.Maui.Layouts;
+using Microsoft.Maui;                      // Rect
+using Microsoft.Maui.ApplicationModel;     // MainThread
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;             // Color.FromArgb, Rect
+using Microsoft.Maui.Layouts;
+using PotionPanic.Models;                  // GameResult
 using PotionPanic.Resources;
-using Microsoft.Maui.Controls.Xaml;
+using PotionPanic.Services;                // GameSessionService, IResultsRepository
 
 namespace PotionPanic.Views
 {
     public partial class GamePage : ContentPage
     {
-        // UI ссылки по именам из XAML
-        Label? _recipeLabel;
-        Label? _progressLabel;
-        Label? _scoreLabel;
+        // UI
+        Label? _recipeLabel, _progressLabel, _scoreLabel;
         Image? _cauldron;
         Grid? _fxLayer;
 
-        // Кнопки ингредиентов
         Button? _btnMushroom, _btnCrystal, _btnHerb, _btnFeather, _btnEye, _btnRoot;
 
-        // Канонические ключи
         readonly string[] AllIngredients = { "Mushroom", "Crystal", "Herb", "Feather", "Eye", "Root" };
-
-        // Эмодзи для рецепта (для текста задания)
         static string EmojiFor(string key) => key switch
         {
             "Mushroom" => "🍄",
@@ -46,6 +41,12 @@ namespace PotionPanic.Views
 
         readonly Random _rng = new();
 
+        // Сервисы и буфер несохранённых результатов
+        readonly IResultsRepository _repo;
+        readonly GameSessionService _session;
+        readonly List<GameResult> _pending = new();
+        DateTime _runStartUtc = DateTime.UtcNow;
+
         public GamePage()
         {
             InitializeComponent();
@@ -63,6 +64,10 @@ namespace PotionPanic.Views
             _btnEye = (Button)FindByName("BtnEye");
             _btnRoot = (Button)FindByName("BtnRoot");
 
+            // DI
+            _repo = ServiceHelper.Get<IResultsRepository>();
+            _session = ServiceHelper.Get<GameSessionService>();
+
             GenerateNewRecipe();
         }
 
@@ -70,19 +75,38 @@ namespace PotionPanic.Views
         {
             base.OnAppearing();
 
-            // подписка на смену языка (элемент с x:Name="SideMenu" в XAML)
+            // старт отсчёта длительности текущего заезда
+            _runStartUtc = DateTime.UtcNow;
+
+            // подписка на смену языка из бокового меню
             if (SideMenu != null)
                 SideMenu.LanguageChanged += OnLanguageChanged;
 
             ApplyTexts();
         }
 
-        protected override void OnDisappearing()
+        protected override async void OnDisappearing()
         {
+            // при любом уходе со страницы — сохраняем накопленные результаты
+            await CommitPendingAsync();
+
             if (SideMenu != null)
                 SideMenu.LanguageChanged -= OnLanguageChanged;
 
             base.OnDisappearing();
+        }
+
+        // ===== Вспомогательный сброс состояния =====
+        void ResetGameState()
+        {
+            currentRecipe.Clear();
+            currentStep = 0;
+            currentScore = 0;
+            _fxLayer?.Children.Clear();
+
+            _runStartUtc = DateTime.UtcNow; // новая попытка
+            GenerateNewRecipe();
+            ApplyTexts();
         }
 
         // ===== UI =====
@@ -127,6 +151,11 @@ namespace PotionPanic.Views
                 {
                     currentScore += 20;
                     await SuccessFxAsync();
+
+                    // добавляем результат в буфер, НО не пишем в БД
+                    AddRoundResultToBuffer(currentScore, _runStartUtc);
+
+                    // продолжить игру с новым рецептом
                     GenerateNewRecipe();
                     return;
                 }
@@ -139,13 +168,44 @@ namespace PotionPanic.Views
             ApplyTexts();
         }
 
-        void Back_Clicked(object sender, EventArgs e)
+        // ====== Буферизация и коммит ======
+        void AddRoundResultToBuffer(int score, DateTime startedUtc)
         {
+            var duration = (int)Math.Max(0, (DateTime.UtcNow - startedUtc).TotalSeconds);
+
+            _pending.Add(new GameResult
+            {
+                PlayerName = _session.PlayerName,
+                Score = score,
+                DateUtc = DateTime.UtcNow,
+                DurationSec = duration,
+                Notes = "Recipe x3"
+            });
+
+            // новая отправная точка для следующего «заезда»
+            _runStartUtc = DateTime.UtcNow;
+        }
+
+        async Task CommitPendingAsync()
+        {
+            if (_pending.Count == 0) return;
+
+            foreach (var item in _pending)
+                await _repo.AddAsync(item);
+
+            _pending.Clear();
+        }
+
+        // ===== Навигация =====
+        // Назад в меню
+        async void Back_Clicked(object sender, EventArgs e)
+        {
+            await CommitPendingAsync();
             currentRecipe.Clear();
             currentStep = 0;
             currentScore = 0;
             _fxLayer?.Children.Clear();
-            Shell.Current.GoToAsync("//menu");
+            await Shell.Current.GoToAsync("//menu");
         }
 
         // ===== FX =====
@@ -231,7 +291,6 @@ namespace PotionPanic.Views
         // ======= БОКОВОЕ МЕНЮ =======
         bool _menuOpen = false;
 
-        // открыть меню
         async void OnMenuClicked(object sender, EventArgs e)
         {
             if (_menuOpen) return;
@@ -245,7 +304,6 @@ namespace PotionPanic.Views
             );
         }
 
-        // закрыть меню (без await — мгновенно возвращаем управление)
         void OnCloseMenu(object? sender, EventArgs e)
         {
             if (!_menuOpen) return;
@@ -264,10 +322,12 @@ namespace PotionPanic.Views
             });
         }
 
-        void SideMenu_StartClicked(object sender, EventArgs e)
+        // Боковое меню -> Новая игра
+        async void SideMenu_StartClicked(object sender, EventArgs e)
         {
+            await CommitPendingAsync();
             OnCloseMenu(null, EventArgs.Empty);
-            Shell.Current.GoToAsync("//game");
+            await Shell.Current.GoToAsync("//game");
         }
 
         async void SideMenu_ChallengeClicked(object sender, EventArgs e)
@@ -276,16 +336,20 @@ namespace PotionPanic.Views
             await DisplayAlert("Challenge", "Coming soon!", "OK");
         }
 
-        void SideMenu_ResultsClicked(object sender, EventArgs e)
+        // Боковое меню -> Результаты
+        async void SideMenu_ResultsClicked(object sender, EventArgs e)
         {
+            await CommitPendingAsync();
             OnCloseMenu(null, EventArgs.Empty);
-            Shell.Current.GoToAsync("//results");
+            await Shell.Current.GoToAsync("//results");
         }
 
+        // Смена языка: фиксируем буфер и начинаем новую серию
         // Смена языка из бокового меню
-        void OnLanguageChanged(object? sender, string lang)
+        async void OnLanguageChanged(object? sender, string lang)
         {
-            PotionPanic.Services.LocalizationService.Apply(lang);
+            await CommitPendingAsync();
+            LocalizationService.Apply(lang);
 
             currentRecipe.Clear();
             currentStep = 0;
