@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using Plugin.Maui.Audio; // для фоновой музыки
 using PotionPanic.Services;
 
 #if ANDROID
@@ -26,11 +27,12 @@ namespace PotionPanic
                     fonts.AddFont("Transcity.otf", "Transcity");
                 });
 
-            // DI: репозиторий результатов
-            builder.Services.AddSingleton<IResultsRepository, ResultsRepository>();
 
-            // DI: сессия игры
-            builder.Services.AddSingleton<GameSessionService>();
+            builder.Services.AddSingleton(AudioManager.Current); // аудиосистема
+            builder.Services.AddSingleton<MusicService>(); // сервис фоновой музыки
+            builder.Services.AddSingleton<IResultsRepository, ResultsRepository>(); // результаты
+            builder.Services.AddSingleton<GameSessionService>(); // сессия игрока
+
 
 #if ANDROID
             builder.ConfigureMauiHandlers(handlers =>
@@ -43,10 +45,10 @@ namespace PotionPanic
             builder.Logging.AddDebug();
 #endif
 
-            // Собираем приложение
+            // создаём приложение
             var app = builder.Build();
 
-            // Даём доступ к ServiceProvider через наш хелпер
+            // регистрируем ServiceHelper
             ServiceHelper.Configure(app.Services);
 
             return app;

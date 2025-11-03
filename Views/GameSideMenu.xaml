@@ -68,6 +68,12 @@
                     </Image.GestureRecognizers>
                 </Image>
             </Grid>
+            <!-- Муте кнопка -->
+            <HorizontalStackLayout Spacing="12" Margin="0,12,0,0" HorizontalOptions="Center">
+                <Button x:Name="MusicBtn"
+            Text="🔊 Music On/Off"
+            Style="{StaticResource GoldButton}" />
+            </HorizontalStackLayout>
         </VerticalStackLayout>
     </Grid>
 </ContentView>

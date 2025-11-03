@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Maui.Controls;
+using PotionPanic.Services;
 
 namespace PotionPanic.Views;
 
@@ -13,6 +14,13 @@ public partial class GameSideMenu : ContentView
     public GameSideMenu()
     {
         InitializeComponent();
+    }
+
+    // мызыка (кнопка)
+    private async void MusicBtn_Clicked(object? sender, EventArgs e)
+    {
+        var music = ServiceHelper.Get<MusicService>();
+        await music.ToggleAsync();
     }
 
     void OnStartClicked(object sender, EventArgs e) => StartClicked?.Invoke(this, EventArgs.Empty);

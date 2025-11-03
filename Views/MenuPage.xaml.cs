@@ -72,6 +72,13 @@ public partial class MenuPage : ContentPage
         await Shell.Current.GoToAsync("//game");
     }
 
+    // мызыка (кнопка)
+    async void MusicToggle_Clicked(object sender, EventArgs e)
+    {
+        var music = ServiceHelper.Get<MusicService>();
+        await music.ToggleAsync();
+    }
+
     async void ChallengeBtn_Clicked(object sender, EventArgs e)
         => await DisplayAlert("Challenge", "Coming soon!", "OK");
 
