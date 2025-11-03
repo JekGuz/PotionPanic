@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Maui;                      // Rect
-using Microsoft.Maui.ApplicationModel;     // MainThread
+using Microsoft.Maui; // Rect
+using Microsoft.Maui.ApplicationModel; // MainThread
 using Microsoft.Maui.Controls;
-using Microsoft.Maui.Graphics;             // Color.FromArgb, Rect
+using Microsoft.Maui.Graphics; // Color.FromArgb, Rect
 using Microsoft.Maui.Layouts;
-using PotionPanic.Models;                  // GameResult
+using PotionPanic.Models; // GameResult
 using PotionPanic.Resources;
-using PotionPanic.Services;                // GameSessionService, IResultsRepository
+using PotionPanic.Services; // GameSessionService, IResultsRepository
 
 namespace PotionPanic.Views
 {
