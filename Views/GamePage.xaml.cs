@@ -42,6 +42,7 @@ namespace PotionPanic.Views
         readonly Random _rng = new();
 
         // Сервисы и буфер несохранённых результатов
+        // Таким образом результаты каждой игры сохраняются в SQLite и потом отображаются в ResultsPage.
         readonly IResultsRepository _repo;
         readonly GameSessionService _session;
         readonly List<GameResult> _pending = new();

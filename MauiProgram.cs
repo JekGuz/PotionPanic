@@ -25,6 +25,10 @@ namespace PotionPanic
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                     fonts.AddFont("Transcity.otf", "Transcity");
+
+                    // новые шрифты
+                    fonts.AddFont("Freestyle Script Bold.otf", "Freestyle");
+                    fonts.AddFont("Freestyle Script Bold RUS.otf", "FreestyleRUS");
                 });
 
 

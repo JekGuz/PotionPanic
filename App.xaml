@@ -29,7 +29,7 @@
             <!-- ====== Шрифт и текстовые стили ====== -->
 
             <!-- строковый ресурс с алиасом шрифта -->
-            <x:String x:Key="FontTranscity">Transcity</x:String>
+            <x:String x:Key="FontTranscity">FreestyleRUS</x:String>
 
             <!-- Заголовки -->
             <Style TargetType="Label" x:Key="TitleLabel">
