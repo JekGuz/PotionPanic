@@ -65,8 +65,8 @@
             <!-- Муте кнопка -->
             <HorizontalStackLayout Spacing="12" Margin="0,12,0,0" HorizontalOptions="Center">
                 <Button Text="🔊 Music On/Off"
-                    Style="{StaticResource GoldButton}"
-                    Clicked="MusicToggle_Clicked"/>
+            Style="{StaticResource GoldButton}"
+            Clicked="MusicToggle_Clicked"/>
             </HorizontalStackLayout>
         </VerticalStackLayout>
     </Grid>

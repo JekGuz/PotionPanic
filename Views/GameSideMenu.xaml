@@ -6,7 +6,6 @@
     xmlns:res="clr-namespace:PotionPanic.Resources"
     BackgroundColor="Transparent">
 
-    <!-- Узкая колонка с полупрозрачным фоном-картинкой -->
     <Grid WidthRequest="320" Padding="18" RowSpacing="14">
         <Image Source="menu_bg.jpg"
                Aspect="AspectFill"
@@ -45,7 +44,6 @@
                    Margin="0,16,0,4"
                    HorizontalOptions="Center" />
 
-            <!-- Флаги: EN / RU / ET -->
             <Grid ColumnDefinitions="Auto,Auto,Auto"
                   ColumnSpacing="16"
                   HorizontalOptions="Center">
@@ -68,11 +66,13 @@
                     </Image.GestureRecognizers>
                 </Image>
             </Grid>
-            <!-- Муте кнопка -->
+
+            <!-- Кнопка музыки -->
             <HorizontalStackLayout Spacing="12" Margin="0,12,0,0" HorizontalOptions="Center">
                 <Button x:Name="MusicBtn"
-            Text="🔊 Music On/Off"
-            Style="{StaticResource GoldButton}" />
+                        Text="🔊 Music On/Off"
+                        Style="{StaticResource GoldButton}"
+                        Clicked="MusicToggle_Clicked"/>
             </HorizontalStackLayout>
         </VerticalStackLayout>
     </Grid>

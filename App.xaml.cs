@@ -8,9 +8,9 @@ namespace PotionPanic
         {
             InitializeComponent();
 
-            // Запуск фоновой музыки (один раз на всё приложение)
+            // фоновая музыка
             var music = ServiceHelper.Get<MusicService>();
-            _ = music.PlayAsync(); // запускаем без ожидания, чтобы не тормозить старт
+            _ = music.PlayAsync(); // без await, просто запустить в фоне
 
             // стартовая страница
             MainPage = new Views.IntroPage();

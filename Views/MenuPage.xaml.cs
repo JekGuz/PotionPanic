@@ -72,7 +72,7 @@ public partial class MenuPage : ContentPage
         await Shell.Current.GoToAsync("//game");
     }
 
-    // мызыка (кнопка)
+    // музыка
     async void MusicToggle_Clicked(object sender, EventArgs e)
     {
         var music = ServiceHelper.Get<MusicService>();

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.Maui.Controls;
 using PotionPanic.Services;
 
@@ -14,13 +14,24 @@ public partial class GameSideMenu : ContentView
     public GameSideMenu()
     {
         InitializeComponent();
+
+        // Показать корректный текст на кнопке при открытии меню
+        var music = ServiceHelper.Get<MusicService>();
+        UpdateMusicButton(music.IsPlaying);
     }
 
-    // ������ (������)
-    private async void MusicBtn_Clicked(object? sender, EventArgs e)
+    // Музыка: вкл/выкл
+    async void MusicToggle_Clicked(object sender, EventArgs e)
     {
         var music = ServiceHelper.Get<MusicService>();
         await music.ToggleAsync();
+        UpdateMusicButton(music.IsPlaying);
+    }
+
+    void UpdateMusicButton(bool isPlaying)
+    {
+        if (MusicBtn == null) return;
+        MusicBtn.Text = isPlaying ? "🔊" : "🔇";
     }
 
     void OnStartClicked(object sender, EventArgs e) => StartClicked?.Invoke(this, EventArgs.Empty);

@@ -20,7 +20,7 @@ public sealed class MusicService
         using var stream = await FileSystem.OpenAppPackageFileAsync("bg.mp3");
         _player = _audioManager.CreatePlayer(stream);
         _player.Loop = true;
-        _player.Volume = 0.35; // громкость 0.1
+        _player.Volume = 0.35; // громкость 0..1
     }
 
     public async Task PlayAsync()
