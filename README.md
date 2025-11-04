@@ -93,7 +93,7 @@
 Видео (`intro.mp4`, 1080×1920, 5–10 секунд) помещается в:
 
 ```
-Resources/Raw/intro.mp4
+Platforms/Android/Resources/raw/intro.mp4
 ```
 
 Преимущества:
